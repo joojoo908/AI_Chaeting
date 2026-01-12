@@ -14,6 +14,7 @@ class Situation(BaseModel):
 class DialogueRequest(BaseModel):
     state: CharacterState
     situation: Situation
+    user_input: str
 
 class DialogueResponse(BaseModel):
     dialogue: str

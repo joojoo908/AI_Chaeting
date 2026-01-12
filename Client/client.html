@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Dialogue Test</title>
+</head>
+<body>
+  <h2>AI 대화 테스트</h2>
+
+  <textarea id="log" rows="10" cols="60" readonly></textarea><br><br>
+
+  <input id="input" type="text" size="50" placeholder="대사를 입력하세요">
+  <button onclick="send()">보내기</button>
+
+  <script>
+    async function send() {
+      const input = document.getElementById("input");
+      const log = document.getElementById("log");
+
+      const body = {
+        state: {
+          character_id: "yuna",
+          affection: 42,
+          trust: 18,
+          mood: "guarded"
+        },
+        situation: {
+          event: "talk_start",
+          location: "rooftop",
+          time: "evening"
+        }
+      };
+
+      const res = await fetch("http://127.0.0.1:9000/dialogue/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+
+      const data = await res.json();
+
+      log.value += "나: " + input.value + "\n";
+      log.value += "AI: " + data.dialogue + "\n\n";
+      input.value = "";
+    }
+  </script>
+</body>
+</html>
